@@ -1,10 +1,9 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import *
 
-dataset = pd.read_csv("../data/1_ddos/1_ddos_1perc.csv", header=0, na_values=["?"]).dropna()
+dataset = pd.read_csv("../data/1_ddos/1_ddos_10perc.csv", header=0, na_values=["?"]).dropna()
 
 X = dataset.iloc[:, :-1]
 y = dataset.iloc[:, -1]
@@ -16,8 +15,13 @@ knn.fit(X_train, y_train)
 
 y_pred = knn.predict(X_test)
 
-conf_mat = confusion_matrix(y_test, y_pred)
+conf_matr = confusion_matrix(y_test, y_pred)
+print("conf_matr:")
+print(conf_matr)
 
-acc = accuracy_score(y_test, y_pred)
-print(f"Acurácia: {acc}")
-print(conf_mat)
+print("************ Desempenho KNN - 1_ddos_10perc **********")
+print("Acuracia:", accuracy_score(y_test, y_pred)*100)
+print("Precision:", precision_score(y_test, y_pred)*100)
+print("Recall:", recall_score(y_test, y_pred)*100)
+print("F1_Score:", f1_score(y_test, y_pred)*100)
+print("AUC:", roc_auc_score(y_test, y_pred)*100)
